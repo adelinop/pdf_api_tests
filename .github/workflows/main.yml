@@ -9,9 +9,19 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+  
+
+    
+    
+    
     env:
       EMAIL_TOKEN: ${{ secrets.EMAIL_TOKEN }}
     steps:
+      - name: Download Docker image artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: docker-image
+          
       - name: Load Docker image
         run: docker load -i pdf-api.tar
 
