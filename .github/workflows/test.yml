@@ -45,13 +45,21 @@ jobs:
             docker ps -a
             docker context show
             docker info
-      - name: Run docker container
-        env:
-          DOCKER_USER: ${{ secrets.DOCKER_HUB_USER }}
-          EMAIL_TOKEN: ${{ secrets.EMAIL_TOKEN }}
+
+      - name: Clean up any previous docker data
         run: |
+          docker system prune -af || true
+          docker logout || true
+                 
+      - name: Run docker container (force clean env)
+        run: |
+          echo "DOCKER_HUB_USER from secret: ${{ secrets.DOCKER_HUB_USER }}"
+          export DOCKER_USER="${{ secrets.DOCKER_HUB_USER }}"
+          export EMAIL_TOKEN="${{ secrets.EMAIL_TOKEN }}"
+          echo "Running container with user: $DOCKER_USER"
+          docker pull $DOCKER_USER/pdf-api:latest
           docker run -d --name meuapp -p 5000:5000 -e EMAIL_TOKEN=$EMAIL_TOKEN $DOCKER_USER/pdf-api:latest
-    
+
       - name: Wait for app to start
         run: sleep 10
 
