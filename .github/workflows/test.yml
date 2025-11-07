@@ -20,10 +20,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
-
-      - name: Docker pull
-        run: |
-          docker pull adelinop/pdf-api:latest
       
       - name: Run Docker container
         run: |
