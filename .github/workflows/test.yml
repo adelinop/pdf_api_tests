@@ -42,6 +42,12 @@ jobs:
           push: true
           load: true
           tags: ${{ secrets.DOCKER_HUB_USER }}/pdf-api:latest
+      - name: Show docker context
+        run: |
+            docker images
+            docker ps -a
+            docker context show
+            docker info
 
       - name: Run docker conatiner
         run: |
