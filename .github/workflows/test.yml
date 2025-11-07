@@ -38,6 +38,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
+          load: true
           tags: ${{ secrets.DOCKER_HUB_USER }}/pdf-api:latest
 
       - name: Run docker conatiner
