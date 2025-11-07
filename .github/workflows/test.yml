@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       EMAIL_TOKEN: ${{ secrets.EMAIL_TOKEN }}
+      DOCKER_USER: ${{ secrets.DOCKER_HUB_USER }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -46,8 +48,8 @@ jobs:
           docker run -d \
           --name meuapp \
           -p 5000:5000 \
-          -e EMAIL_TOKEN=${{ secrets.EMAIL_TOKEN }} \
-          ${{ secrets.DOCKER_HUB_USER }}/pdf-api:latest
+          -e EMAIL_TOKEN=$EMAIL_TOKEN \
+          $DOCKER_USER/pdf-api:latest
 
           sleep 10
 
