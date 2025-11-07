@@ -13,8 +13,9 @@ jobs:
         packages: read # REQUIRED to pull from GHCR
     runs-on: ubuntu-latest
     permissions:
-    contents: read
-    packages: write
+      contents: read
+      packages: write
+      
     env:
       EMAIL_TOKEN: ${{ secrets.EMAIL_TOKEN }}
     steps:
