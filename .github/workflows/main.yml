@@ -5,44 +5,19 @@ on:
   pull_request:
     branches:
       - main
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Build Docker image
-        run: docker build -t pdf-api:latest .
-
-      - name: Save Docker image
-        run: docker save -o pdf-api.tar pdf-api:latest
-
-      - name: Upload Docker image
-        uses: actions/upload-artifact@v4
-        with:
-          name: docker-image
-          path: pdf-api.tar
   test:
     runs-on: ubuntu-latest
     needs: build
     env:
       EMAIL_TOKEN: ${{ secrets.EMAIL_TOKEN }}  
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Download Docker image artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: docker-image
-
+      - uses: actions/checkout@v4
       - name: Load Docker image
         run: docker load -i pdf-api.tar
 
       - name: Run Docker container
         run: |
-          docker run -d --name meuapp -p 3000:3000 -e EMAIL_TOKEN=$EMAIL_TOKEN pdf-api:latest
-          sleep 10  # espera o app subir
+          docker run -d --name meuapp -p 5000:5000 -e EMAIL_TOKEN=$EMAIL_TOKEN pdf-api:latest
 
       - name: Install dependencies
         run: npm ci
