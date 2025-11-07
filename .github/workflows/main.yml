@@ -5,25 +5,26 @@ on:
   pull_request:
     branches:
       - main
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    env:
-      EMAIL_TOKEN: ${{ secrets.EMAIL_TOKEN }}  
-    steps:
-      - uses: actions/checkout@v4
-      - name: Load Docker image
-        run: docker load -i pdf-api.tar
+  jobs: 
+    test:
+      runs-on: ubuntu-latest
+      needs: build
+      env:
+        EMAIL_TOKEN: ${{ secrets.EMAIL_TOKEN }}  
+      steps:
+        - uses: actions/checkout@v4
+        - name: Load Docker image
+          run: docker load -i pdf-api.tar
 
-      - name: Run Docker container
-        run: |
-          docker run -d --name meuapp -p 5000:5000 -e EMAIL_TOKEN=$EMAIL_TOKEN pdf-api:latest
+        - name: Run Docker container
+          run: |
+            docker run -d --name meuapp -p 5000:5000 -e EMAIL_TOKEN=$EMAIL_TOKEN pdf-api:latest
 
-      - name: Install dependencies
-        run: npm ci
+        - name: Install dependencies
+          run: npm ci
 
-      - name: Run Cypress tests
-        run: npm run cy:run
+        - name: Run Cypress tests
+          run: npm run cy:run
 
-      - name: Stop Docker container
-        run: docker stop meuapp
+        - name: Stop Docker container
+          run: docker stop meuapp
