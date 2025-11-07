@@ -1,43 +1,42 @@
-name: Run Cypress Tests on Docker Image
+name: Run Cypress Tests on PDF API Container
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
 
 jobs:
-  test-docker:
+  test:
     runs-on: ubuntu-latest
+    env:
+      EMAIL_TOKEN: ${{ secrets.EMAIL_TOKEN }}
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
+        with:
+          lfs: true
 
-      - name: Load Docker image from tar
+      - name: Load Docker image from .tar
         run: |
-          echo "📦 Loading Docker image from pdf-api.tar"
+          echo "📦 Loading Docker image..."
           docker load -i pdf-api.tar
           docker images
 
       - name: Run Docker container
         run: |
-          echo "🚀 Starting container on port 5000"
-          docker run -d --name pdf-api -p 5000:5000 pdf-api:latest
-          sleep 10  # Espera o app subir
+          echo "🚀 Starting container..."
+          docker run -d --name pdf-api -p 5000:5000 -e EMAIL_TOKEN=$EMAIL_TOKEN pdf-api:latest
+          sleep 10
+          docker ps -a
 
-      - name: Verify container is running
-        run: docker ps -a
-
-      - name: Install dependencies
+      - name: Install Cypress dependencies
         run: npm ci
 
       - name: Run Cypress tests
-        run: npm run cy:run
-
-      - name: Stop and remove Docker container
-        if: always()
         run: |
-          echo "🧹 Cleaning up"
+          echo "🧪 Running Cypress tests against http://localhost:5000"
+          npx cypress run --config baseUrl=http://localhost:5000
+
+      - name: Stop and clean up
+        run: |
           docker stop pdf-api || true
-          docker rm -f pdf-api || true
+          docker rm pdf-api || true
