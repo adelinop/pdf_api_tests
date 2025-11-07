@@ -1,30 +1,34 @@
-name: Cypress Tests
+name: Test Workflow
 
 on:
   workflow_dispatch:
   pull_request:
     branches:
       - main
-  jobs: 
-    test:
-      runs-on: ubuntu-latest
-      needs: build
-      env:
-        EMAIL_TOKEN: ${{ secrets.EMAIL_TOKEN }}  
-      steps:
-        - uses: actions/checkout@v4
-        - name: Load Docker image
-          run: docker load -i pdf-api.tar
 
-        - name: Run Docker container
-          run: |
-            docker run -d --name meuapp -p 5000:5000 -e EMAIL_TOKEN=$EMAIL_TOKEN pdf-api:latest
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      EMAIL_TOKEN: ${{ secrets.EMAIL_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-        - name: Install dependencies
-          run: npm ci
+      - name: Load Docker image
+        run: docker load -i pdf-api.tar
 
-        - name: Run Cypress tests
-          run: npm run cy:run
+      - name: Run Docker container
+        run: |
+          docker run -d --name meuapp -p 5000:5000 -e EMAIL_TOKEN=$EMAIL_TOKEN pdf-api:latest
 
-        - name: Stop Docker container
-          run: docker stop meuapp
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Cypress tests
+        run: npm run cy:run
+
+      - name: Stop and remove Docker container
+        run: |
+          docker stop meuapp
+          docker rm meuapp
