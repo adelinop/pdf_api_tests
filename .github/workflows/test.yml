@@ -23,11 +23,7 @@ jobs:
       
       - name: Run Docker container
         run: |
-          docker run -d \
-          --name pdf-api \
-          -p 5000:5000 \
-          -e EMAIL_TOKEN=${{ env.EMAIL_TOKEN}} \
-          arturcampos/local_app:latest
+          docker-compose up -d
 
 
       - name: Install Cypress dependencies
