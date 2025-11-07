@@ -15,9 +15,9 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    # 2. Carregar a imagem Docker do arquivo .tar
     - name: Load Docker image
       run: docker load -i pdf-api.tar
+      shell: bash
 
     # 3. Rodar o container com variável de ambiente
     - name: Run Docker container
