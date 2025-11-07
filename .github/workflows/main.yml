@@ -23,17 +23,20 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
+      
+      - name: Docker build
+        run: docker build -t pdf-api . 
 
-      - name: Pull image from Docker Hub
-        run: docker pull ${{ secrets.DOCKER_HUB_USER }}/pdf-api
+      - name: Tag image on Docker Hub
+        run: docker tag pdf-api ${{ secrets.DOCKER_HUB_USER }}/pdf-api
+
+      - name: Push image to Docker Hub
+        run: docker push ${{ secrets.DOCKER_HUB_USER }}/pdf-api
 
       - name: Run Docker container
         run: |
-          docker run -d \
-            --name meuapp \
-            -p 5000:5000 \
-            -e EMAIL_TOKEN=$EMAIL_TOKEN \
-            ${{ secrets.DOCKER_HUB_USER }}/pdf-api:latest
+          docker run -d --name meuapp -p 5000:5000 -e EMAIL_TOKEN=${{ secrets.EMAIL_TOKEN }} pdf-api
+          sleep 10
 
       - name: Install dependencies
         run: npm ci
