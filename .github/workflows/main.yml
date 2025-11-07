@@ -9,7 +9,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      email_token: ${{ secrets.EMAIL_TOKEN }}
+      EMAIL_TOKEN: ${{ secrets.EMAIL_TOKEN }}
     steps:
     # 1. Baixar o código
     - name: Checkout repository
@@ -22,7 +22,7 @@ jobs:
     # 3. Rodar o container com variável de ambiente
     - name: Run Docker container
       run: |
-        docker run -d --name meuapp -p 5000:5000 -e email_token=$email_token pdf-api:latest
+        docker run -d --name meuapp -p 5000:5000 -e EMAIL_TOKEN=$EMAIL_TOKEN pdf-api:latest
         sleep 10  # espera o app iniciar
 
     # 4. Instalar dependências do Cypress
