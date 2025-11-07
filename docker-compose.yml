@@ -2,9 +2,7 @@ version: '3.8'
 
 services:
   pdf-api:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: arturcampos/local_app:latest
     container_name: pdf-application
     ports:
       - "5000:5000"
