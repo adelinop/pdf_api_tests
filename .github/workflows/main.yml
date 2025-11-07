@@ -23,8 +23,6 @@ jobs:
         with:
           name: docker-image
           path: pdf-api.tar
-
-jobs:
   test:
     runs-on: ubuntu-latest
     needs: build
