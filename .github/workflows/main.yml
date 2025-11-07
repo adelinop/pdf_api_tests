@@ -16,7 +16,7 @@ jobs:
       EMAIL_TOKEN: ${{ secrets.EMAIL_TOKEN }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: List files (debug)
         run: ls -lh
@@ -26,10 +26,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
-
-      - name: Check secret substitution (safe trick)
-        run: |
-                echo "Docker user is: ${{ secrets.DOCKER_HUB_USER }}-test"
 
       - name: Docker build
         run: docker build -t pdf-api . 
