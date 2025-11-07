@@ -5,23 +5,32 @@ on:
   pull_request:
     branches:
       - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Docker image
+        run: docker build -t pdf-api:latest .
+      - name: Save Docker image
+        run: docker save -o pdf-api.tar pdf-api:latest
+      - name: Upload Docker image
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-image
+          path: pdf-api.tar
 
 jobs:
   test:
-    runs-on: ubuntu-latest
-  
-
-    
-    
-    
+    runs-on: ubuntu-latest  
     env:
       EMAIL_TOKEN: ${{ secrets.EMAIL_TOKEN }}
     steps:
+      - uses: actions/checkout@v3
       - name: Download Docker image artifact
         uses: actions/download-artifact@v4
         with:
           name: docker-image
-          
       - name: Load Docker image
         run: docker load -i pdf-api.tar
 
