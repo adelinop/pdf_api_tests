@@ -9,7 +9,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      EMAIL_TOKEN: ${{ secrets.EMAIL_TOKEN }}
+      email_token: ${{ secrets.EMAIL_TOKEN }}
     steps:
     # 1. Baixar o código
     - name: Checkout repository
