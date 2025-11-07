@@ -24,7 +24,7 @@ jobs:
 
       - name: Run Docker container
         run: |
-          docker run -d -p 5000:5000 -e EMAIL_TOKEN=$EMAIL_TOKEN pdf-api
+          docker run -d -p 5000:5000 -e EMAIL_TOKEN=$EMAIL_TOKEN pdf-api .
       - name: Install dependencies
         run: npm ci
 
