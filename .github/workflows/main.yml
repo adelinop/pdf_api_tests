@@ -15,17 +15,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Download Docker image artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: pdf-api-image
-          path: .
 
       - name: List files (debug)
         run: ls -lh
 
-      - name: Load Docker image
-        run: docker load -i pdf-api.tar
+      - name: Build docker 
+        run: docker build -t pdf-api:latest .
 
       - name: Run Docker container
         run: |
