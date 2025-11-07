@@ -37,8 +37,7 @@ jobs:
         run: docker push ${{ secrets.DOCKER_HUB_USER }}/pdf-api
 
       - name: Run Docker container
-        run: |
-          docker run -d --name meuapp -p 5000:5000 -e EMAIL_TOKEN=$EMAIL_TOKEN adelinop/pdf-api:latest
+        run: docker run -d --name meuapp -p 5000:5000 -e EMAIL_TOKEN=$EMAIL_TOKEN adelinop/pdf-api:latest
           sleep 10
 
       - name: Install dependencies
