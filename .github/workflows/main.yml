@@ -8,6 +8,9 @@ on:
 
 jobs:
   test:
+    permissions:
+        contents: read
+        packages: read # REQUIRED to pull from GHCR
     runs-on: ubuntu-latest
     env:
       EMAIL_TOKEN: ${{ secrets.EMAIL_TOKEN }}
