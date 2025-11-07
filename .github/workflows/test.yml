@@ -45,7 +45,7 @@ jobs:
           push: false
       - uses: addnab/docker-run-action@v3
         with:
-          image: pdf-api:latest
+          image: ${{ secrets.DOCKER_HUB_USER }}/pdf-api:latest
           run: echo "hello world"
 
 
