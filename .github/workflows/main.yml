@@ -9,7 +9,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    needs: build
     env:
       EMAIL_TOKEN: ${{ secrets.EMAIL_TOKEN }}
     steps:
