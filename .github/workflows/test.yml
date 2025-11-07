@@ -35,7 +35,7 @@ jobs:
         run: npm ci
 
       - name: Build and push
-        uses: build-push-action@v6.18.0
+        uses: docker/build-push-action@v6
         with:
           push: true
           tags: ${{ secrets.DOCKER_HUB_USER }}/pdf-api:latest
