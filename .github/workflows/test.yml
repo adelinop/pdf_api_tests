@@ -1,5 +1,3 @@
-name: Test Workflow (from Docker Hub)
-
 on:
   workflow_dispatch:
   pull_request:
@@ -10,7 +8,7 @@ jobs:
   test:
     permissions:
         contents: read
-        packages: read # REQUIRED to pull from GHCR
+        packages: write
     runs-on: ubuntu-latest
     env:
       EMAIL_TOKEN: ${{ secrets.EMAIL_TOKEN }}
@@ -20,35 +18,38 @@ jobs:
 
       - name: List files (debug)
         run: ls -lh
-        
+
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-      - name: Docker build
-        run: docker build -t pdf-api . 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
 
-      - name: Tag image on Docker Hub
-        run: docker tag pdf-api ${{ secrets.DOCKER_HUB_USER }}/pdf-api
-
-      - name: Push image to Docker Hub
-        run: docker push ${{ secrets.DOCKER_HUB_USER }}/pdf-api
-
-      - name: Run Docker container
-        run: |
-          echo "Docker image: adelinop/pdf-api:latest"
-          docker pull adelinop/pdf-api:latest
-          docker images
-          docker run -d --name meuapp -p 5000:5000 \
-            -e EMAIL_TOKEN=$EMAIL_TOKEN \
-            adelinop/pdf-api:latest
-          sleep 10
-
+      - name: Set Up Docker buildx
+        uses: docker/setup-buildx-action-@v3
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Build and push
+        uses: docker/build-push-actions@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USER }}/pdf-api:latest
+
+      - name: Run docker conatiner
+        run: |
+          docker run -d \
+          --name meuapp \
+          -p 5000:5000 \
+          -e EMAIL_TOKEN=${{ secrets.EMAIL_TOKEN }} \
+          ${{ secrets.DOCKER_HUB_USER }}/pdf-api:latest
+
+          sleep 10
 
       - name: Run Cypress tests
         run: npm run cy:run
@@ -56,4 +57,4 @@ jobs:
       - name: Stop and remove Docker container
         run: |
           docker stop meuapp || true
-          docker rm meuapp || true
+          docker rm -f meuapp || true
