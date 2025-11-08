@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "cy:run": "npx cypress run -- --enable-unsafe-swiftshader --env url=http://localhost:5000/pdf,email=pdf_testmail@yopmail.com,yopmail=https://yopmail.com/",
+    "cy:run": "npx cypress run --env url=http://localhost:5000/pdf,email=pdf_testmail@yopmail.com,yopmail=https://yopmail.com/",
     "cy:open": "npx cypress open --env url=http://127.0.0.1:5000/pdf,email=pdf_testmail@yopmail.com,yopmail=https://yopmail.com/"
     
   },
