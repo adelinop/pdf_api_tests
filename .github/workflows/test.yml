@@ -24,6 +24,7 @@ jobs:
       - name: Run Docker container
         run: |
           docker compose up -d
+          docker log pdf-application 
 
 
       - name: Install Cypress dependencies
