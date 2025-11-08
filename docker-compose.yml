@@ -1,6 +1,6 @@
 services:
   pdf-api:
-    image: arturcampos/local_app:latest
+    image: adelinop/pdfservice:latest
     platform: linux/amd64
     container_name: pdf-application
     ports:
