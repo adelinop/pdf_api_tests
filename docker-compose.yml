@@ -6,7 +6,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      EMAIL_TOKE=${EMAIL_TOKEN}
+      EMAIL_TOKE: ${EMAIL_TOKEN}
     restart: unless-stopped
     networks:
       - pdf-network
