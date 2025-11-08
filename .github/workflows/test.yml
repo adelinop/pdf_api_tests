@@ -43,7 +43,7 @@ jobs:
         
         run: |
           echo "🧪 Running Cypress tests against http://localhost:5000"
-          npx cypress run --env file_name={{ inputs.pdf_name }},url=http://localhost:5000/pdf,email={{ inputs.email }},yopmail=https://yopmail.com/ -- --enable-unsafe-swiftshader
+          npx cypress run --env url=http://localhost:5000/pdf,file_name=${{ inputs.pdf_name }},email=${{ inputs.email }},yopmail=https://yopmail.com/ -- --enable-unsafe-swiftshader
           
       - name: Dump docker logs on failure
         uses: jwalton/gh-docker-logs@v2
