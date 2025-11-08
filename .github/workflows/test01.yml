@@ -41,7 +41,7 @@ jobs:
       - name: Run Cypress tests 
         run: |
           echo "Running Cypress tests on docker container"
-          npm run cy:run
+          npx cypress run --env file_name=${{ inputs.pdf_name }},url=http://localhost:5000/pdf,email=${{ inputs.email }},yopmail=https://yopmail.com/ -- --enable-unsafe-swiftshader --reporter mochawesome
           
       - name: Uploading artifact
         uses: actions/upload-artifact@v4
