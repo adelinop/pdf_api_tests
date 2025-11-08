@@ -21,6 +21,10 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
       
+      - name: Prepare .env file
+        run: |
+          echo "EMAIL_TOKEN=${{ secrets.EMAIL_TOKEN }}" > .env
+          
       - name: Run Docker container
         run: |
           docker compose up -d
