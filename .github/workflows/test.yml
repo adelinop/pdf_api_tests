@@ -2,7 +2,19 @@ name: Run Cypress Tests on PDF API Container
 
 on:
   workflow_dispatch:
-
+    inputs:
+      email:
+        description: 'Email used to the test, *please always use yopmail emails for testing*'
+        required: true
+        default: 'pdf_testmail@yopmail.com'
+        type: string
+      pdf_name: 
+        description: 'name of the attached file'
+        required: true
+        default: test_pdf
+        type: string
+      
+      
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -28,12 +40,12 @@ jobs:
         run: npm ci
 
       - name: Run Cypress tests
+        
         run: |
           echo "🧪 Running Cypress tests against http://localhost:5000"
-          npm run cy:run
-
+          npx cypress run --env file_name={{ inputs.pdf_name }},url=http://localhost:5000/pdf,email={{ inputs.email }},yopmail=https://yopmail.com/ -- --enable-unsafe-swiftshader
+          
       - name: Dump docker logs on failure
-        if: failure()
         uses: jwalton/gh-docker-logs@v2
       
       - name: Stop and clean up
