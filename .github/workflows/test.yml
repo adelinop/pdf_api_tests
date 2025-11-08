@@ -27,7 +27,7 @@ jobs:
 
       - name: Docker Debug
         run: |
-          docker compose logs pdf-application 
+          docker logs pdf-application 
 
       - name: Install Cypress dependencies
         run: npm ci
