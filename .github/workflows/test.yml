@@ -14,11 +14,10 @@ on:
         default: test_pdf
         type: string
       
-      
 jobs:
   test:
     runs-on: ubuntu-latest
-
+    
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -49,7 +48,8 @@ jobs:
         if: always()
         with:
           name: index
-          path: mochawesome-report/mochawesome.html
+          path: mochawesome-report
+          retention-days: 30
           
       - name: Dump docker logs on failure
         uses: jwalton/gh-docker-logs@v2
