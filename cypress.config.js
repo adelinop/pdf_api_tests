@@ -7,6 +7,8 @@ module.exports = defineConfig({
     },
     // Se estiver usando modo headless, passe o argumento pro navegador
     browser: 'chrome',
+    reporter: 'mochawesome',
+
   },
   chromeWebSecurity: false,
   video: false,
