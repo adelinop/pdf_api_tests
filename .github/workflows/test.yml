@@ -24,7 +24,12 @@ jobs:
       - name: Run Docker container
         run: |
           docker compose up -d
+          echo "-------------------"
+          echo "-------------------"
+          echo "-------------------"
           docker logs pdf-application 
+          echo "-------------------"
+          echo "-------------------"
 
 
       - name: Install Cypress dependencies
@@ -37,5 +42,4 @@ jobs:
 
       - name: Stop and clean up
         run: |
-          docker stop pdf-api || true
-          docker rm pdf-api || true
+          docker compose down --rmi all || true
