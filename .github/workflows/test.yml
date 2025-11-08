@@ -24,13 +24,10 @@ jobs:
       - name: Run Docker container
         run: |
           docker compose up -d
-          echo "-------------------"
-          echo "-------------------"
-          echo "-------------------"
-          docker logs pdf-application 
-          echo "-------------------"
-          echo "-------------------"
 
+      - name: Docker Debug
+        run: |
+          docker compose logs pdf-application 
 
       - name: Install Cypress dependencies
         run: npm ci
