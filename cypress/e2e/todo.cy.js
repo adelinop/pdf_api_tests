@@ -5,7 +5,7 @@
         const blob = Cypress.Blob.binaryStringToBlob(file, 'image/jpeg');
         const formData = new win.FormData();
         formData.append('files', blob, 'image1.jpeg');
-        formData.append('file_name', 'test_pdf');
+        formData.append('file_name', Cypress.env('file_name'));
 
         cy.request({
           method: 'POST',
