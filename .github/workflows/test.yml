@@ -33,7 +33,7 @@ jobs:
       - name: Run Cypress tests
         run: |
           echo "🧪 Running Cypress tests against http://localhost:5000"
-          npm cy:run
+          npm run cy:run
 
       - name: Stop and clean up
         run: |
