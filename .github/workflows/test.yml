@@ -25,10 +25,6 @@ jobs:
         run: |
           docker compose up -d
 
-      - name: Docker Debug
-        run: |
-          docker logs pdf-application 
-
       - name: Install Cypress dependencies
         run: npm ci
 
@@ -37,6 +33,10 @@ jobs:
           echo "🧪 Running Cypress tests against http://localhost:5000"
           npm run cy:run
 
+      - name: Dump docker logs on failure
+        if: failure()
+        uses: jwalton/gh-docker-logs@v2
+      
       - name: Stop and clean up
         run: |
           docker compose down --rmi all || true
