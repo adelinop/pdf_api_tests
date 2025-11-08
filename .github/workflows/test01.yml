@@ -2,6 +2,17 @@ name: Cypress tests
 
 on:
   workflow_dispatch:
+    inputs:
+      email:
+        description: 'Email usado para receber o Pdf da API'
+        required: true
+        default: pdf_testmail@yopmail.com
+        type: string
+      pdf_name:
+        description: 'Nome do arquivo pdf gerado'
+        required: true
+        default: test_pdf
+        type: string
 
 
 jobs:
