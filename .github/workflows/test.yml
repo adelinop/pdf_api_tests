@@ -1,5 +1,4 @@
-name: Run Cypress Tests on PDF API Container
-
+name: Run Cypress Tests
 on:
   workflow_dispatch:
     inputs:
